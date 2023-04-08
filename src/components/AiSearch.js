@@ -2,10 +2,21 @@ import React from "react";
 import ai from "../images/ai.png";
 import Image from "next/image";
 import { useState } from "react";
+import Card from "./Card";
+import { MyContext } from "../context/MyContext";
+import { useContext } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 function AiSearch() {
+  const router = useRouter();
+
   const [input, setInput] = useState("");
   const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [init, setInit] = useState(true);
+
+  const { myState, setMyState } = useContext(MyContext);
 
   async function onSubmitPrompt(event) {
     event.preventDefault();
@@ -26,6 +37,9 @@ function AiSearch() {
           data.error ||
           new Error(`Request failed with status ${response.status}`)
         );
+      } else {
+        setLoading(true);
+        setInit(false);
       }
 
       const results = data.result.split(",").map((item) => item.trim());
@@ -36,6 +50,8 @@ function AiSearch() {
 
         if (response.status !== 200) {
           return;
+        } else {
+          setLoading(false);
         }
 
         const { locations } = await response.json();
@@ -67,10 +83,10 @@ function AiSearch() {
       <Image
         src={ai}
         alt="ai"
-        className="h-[500px] object-cover object-center"
+        className="h-[500px] object-cover object-center lg:max-w-[1200px] rounded-xl lg:m-4 "
       />
 
-      <div className="absolute top-[65%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 w-[70%] text-black">
+      <div className="absolute top-[60%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 w-[70%] text-black">
         <div class="relative w-[75%] h-10 rounded-full">
           <label for="UserEmail" class="sr-only">
             {" "}
@@ -85,6 +101,7 @@ function AiSearch() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onSubmit={onSubmitPrompt}
+              style={{ fontSize: "1.2rem" }}
             />
 
             <span class="pointer-events-none absolute inset-y-0 right-0 grid w-10 place-content-center text-gray-500">
@@ -105,6 +122,34 @@ function AiSearch() {
             </span>
           </form>
         </div>
+      </div>
+
+      <div className="mt-10">
+        {destinations.length > 0 && !loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {destinations.map((item, ind) => (
+              <button
+                onClick={() => {
+                  router.push(`/plan/${item.mainDestination}`);
+                }}
+              >
+                <Card
+                  title={item.mainDestination}
+                  imgUrl={item.mainDestinationPhoto}
+                />
+              </button>
+            ))}
+          </div>
+        ) : (
+          !init && (
+            <div className="flex w-full justify-center items-center">
+              <div
+                class="w-12 h-12 rounded-full animate-spin
+              border-2 border-solid border-blue-500 border-t-transparent"
+              ></div>
+            </div>
+          )
+        )}
       </div>
     </div>
   );

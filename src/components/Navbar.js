@@ -8,7 +8,7 @@ import { Inter } from "next/font/google";
 import { useSession, signIn, signOut } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 import { useState } from "react";
-
+import Link from "next/link";
 function Navbar() {
   const { data: session, status } = useSession();
 
@@ -22,7 +22,7 @@ function Navbar() {
       >
         <div className="mx-auto flex h-16 max-w-screen-2xl items-center justify-between sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 ml-5 lg:ml-0">
-            <a href="#" className="flex">
+            <Link href="/" className="flex">
               <span className="sr-only">Logo</span>
               <span className="inline-block h-8 w-32 rounded-lg">
                 <Image
@@ -32,7 +32,7 @@ function Navbar() {
                   height={200}
                 />
               </span>
-            </a>
+            </Link>
           </div>
 
           <div className="flex flex-1  justify-end gap-8">
