@@ -5,10 +5,12 @@ import { useState } from "react";
 
 function AiSearch() {
   const [input, setInput] = useState("");
-  const [result, setResult] = useState([]);
+  const [destinations, setDestinations] = useState([]);
 
   async function onSubmitPrompt(event) {
     event.preventDefault();
+    setDestinations([]);
+
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -26,11 +28,33 @@ function AiSearch() {
         );
       }
 
-    setResult(data.result.split(",").map((item) => item.trim()));
-    console.log(result);
-    setInput("");
+      const results = data.result.split(",").map((item) => item.trim());
+      results.map(async (item) => {
+        const response = await fetch(`/api/searchLocation?location=${item}`, {
+          method: "GET",
+        });
 
+        if (response.status !== 200) {
+          return;
+        }
 
+        const { locations } = await response.json();
+        const mainDestination = locations[0]["name"];
+        const mainDestinationPhoto = locations[0]["photoURL"];
+
+        // remove first location
+        locations.shift();
+
+        setDestinations((prev) => {
+          console.log({ prev });
+          return [
+            ...prev,
+            { mainDestination, mainDestinationPhoto, locations },
+          ];
+        });
+      });
+
+      setInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -57,7 +81,7 @@ function AiSearch() {
               type="text"
               id="prompt"
               placeholder="Describe what you want to explore (e.g. beaches, museums, outdoor activities)"
-              class="w-full rounded-3xl border-gray-200 pr-10 shadow-sm sm:text-sm border-2 focus:ring-indigo-500 focus:border-indigo-500 p-2 pl-5 text-black placeholder-gray-500 " 
+              class="w-full rounded-3xl border-gray-200 pr-10 shadow-sm sm:text-sm border-2 focus:ring-indigo-500 focus:border-indigo-500 p-2 pl-5 text-black placeholder-gray-500 "
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onSubmit={onSubmitPrompt}
