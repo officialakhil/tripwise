@@ -5,11 +5,14 @@ import love from "../images/love.svg";
 import random from "../images/random.jpeg";
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { useSession, signIn, signOut } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 import { useState } from "react";
 
 function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const { data: session, status } = useSession();
+
+  const [loggedIn, setLoggedIn] = useState(session ? true : false);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -86,7 +89,7 @@ function Navbar() {
                 </span>
 
                 <span>
-                  {loggedIn ? (
+                  {session ? (
                     // <a
                     //   href="/profile"
                     //   className="flex items-center border-b-4 border-transparent px-6"
@@ -147,9 +150,9 @@ function Navbar() {
                       </div>
                     </div>
                   ) : (
-                    <a
-                      href="/signin"
+                    <button
                       className="flex items-center border-b-4 border-transparent p-6 hover:border-sky-500"
+                      onClick={() => signIn("google")}
                     >
                       <svg
                         width="24"
@@ -168,7 +171,7 @@ function Navbar() {
                       </svg>
 
                       <span className="ml-2"> Sign In </span>
-                    </a>
+                    </button>
                   )}
                 </span>
               </div>
