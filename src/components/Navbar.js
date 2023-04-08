@@ -34,7 +34,7 @@ function Navbar() {
 
           <div className="flex flex-1  justify-end gap-8">
             <div className="flex items">
-              <div className="flex items-center divide-x divide-gray-100 border-x border-gray-100">
+              <div className="flex items-center  border-gray-100">
                 <span className="hidden sm:block">
                   <a
                     href="/account"
@@ -87,18 +87,65 @@ function Navbar() {
 
                 <span>
                   {loggedIn ? (
-                    <a
-                      href="/profile"
-                      className="flex items-center border-b-4 border-transparent px-6"
-                    >
-                      <Image
-                        src={random}
-                        alt="user"
-                        width={50}
-                        height={50}
-                        className="h-10 w-10 rounded-full"
-                      />
-                    </a>
+                    // <a
+                    //   href="/profile"
+                    //   className="flex items-center border-b-4 border-transparent px-6"
+                    // >
+                    //   <Image
+                    //     src={random}
+                    //     alt="user"
+                    //     width={50}
+                    //     height={50}
+                    //     className="h-10 w-10 rounded-full"
+                    //   />
+                    // </a>
+
+                    // add dropdown menu here for profile and logout
+                    <div className="relative inline-block text-left">
+                      <div>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          id="options-menu"
+                          aria-haspopup="true"
+                          aria-expanded="true"
+                          onClick={() => setIsOpen(!isOpen)}
+                        >
+                          <Image
+                            src={random}
+                            alt="user"
+                            width={50}
+                            height={50}
+                            className="h-10 w-10 rounded-full"
+                          />
+                        </button>
+                      </div>
+                      <div className={isOpen ? "block" : "hidden"}>
+                        <div
+                          className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                          role="menu"
+                          aria-orientation="vertical"
+                          aria-labelledby="options-menu"
+                        >
+                          <div className="py-1" role="none">
+                            <a
+                              href="/profile"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                              role="menuitem"
+                            >
+                              Profile
+                            </a>
+                            <a
+                              href="/logout"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                              role="menuitem"
+                            >
+                              Logout
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ) : (
                     <a
                       href="/signin"
