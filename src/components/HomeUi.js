@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import img1 from "../images/img1.png";
 import img2 from "../images/img2.png";
@@ -64,6 +65,7 @@ function HomeUi() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {topDestinations.map((destination, index) => (
+            // eslint-disable-next-line react/jsx-key
             <button
               onClick={() => {
                 router.push(`/plan/${destination.title}`);

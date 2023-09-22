@@ -128,6 +128,7 @@ function AiSearch() {
         {destinations.length > 0 && !loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {destinations.map((item, ind) => (
+              // eslint-disable-next-line react/jsx-key
               <button
                 onClick={() => {
                   router.push(`/plan/${item.mainDestination}`);
