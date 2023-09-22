@@ -6,16 +6,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Image from "next/image";
 
-function plan() {
+function Plan() {
   const router = useRouter();
   const { city } = router.query;
   // const [imgUrl, setImgUrl] = useState("");
-  
+
   const { myState } = useContext(MyContext);
   console.log(myState);
-  
+
   const [plan, setPlan] = useState([]);
-  
+
   useEffect(() => {
     if (!router.isReady) return;
     // setImgUrl(`https://source.unsplash.com/1600x900/?${city}`);
@@ -37,15 +37,14 @@ function plan() {
         </h1>
         <div className="p-10">
           {plan.map((day) => {
+            // eslint-disable-next-line react/jsx-key
             return <p className="text-black bg-white">{day}</p>;
           })}
         </div>
-        <div>
-          {/* <Image src={imgUrl} width={500} height={500} /> */}
-        </div>
+        <div>{/* <Image src={imgUrl} width={500} height={500} /> */}</div>
       </div>
     </div>
   );
 }
 
-export default plan;
+export default Plan;
