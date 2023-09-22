@@ -1,5 +1,5 @@
 ## [Preview](https://tripwise-project.vercel.app/)
-<img width="1423" alt="image" src="https://github.com/officialakhil/tripwise/assets/43880032/760bec8a-1297-482c-a7e4-378313d70933">
+<img width="1418" alt="image" src="https://github.com/officialakhil/tripwise/assets/43880032/1540129b-7b4c-45a5-8bf2-05ceca976cbe">
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
